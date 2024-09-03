@@ -18,8 +18,8 @@ function SpawnFood () {
         8 8 8 8 8 8 6 6 7 7 7 7 5 7 6 6 
         `, SpriteKind.Food)
     currentFood += 1
-    HeroSprite.sayText(currentFood)
-    RandomSprite.setPosition(randint(10, 140), randint(10, 100))
+    HeroSprite.sayText(EnemyVelocity)
+    RandomSprite.setPosition(randint(0, 140), randint(0, 100))
     RandomSprite.setVelocity(EnemyVelocity, EnemyVelocity)
     RandomSprite.setStayInScreen(true)
     RandomSprite.setBounceOnWall(true)
@@ -27,14 +27,13 @@ function SpawnFood () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
     currentFood += -1
-    HeroSprite.sayText(currentFood)
+    HeroSprite.sayText(EnemyVelocity)
     if (EnemyVelocity <= MaxEnemyVelocity) {
-        EnemyVelocity += 100
+        EnemyVelocity += 1
     }
 })
 let RandomSprite: Sprite = null
 let MaxEnemyVelocity = 0
-let currentFood = 0
 let EnemyVelocity = 0
 let HeroSprite: Sprite = null
 HeroSprite = sprites.create(img`
@@ -59,10 +58,11 @@ controller.moveSprite(HeroSprite)
 HeroSprite.setPosition(randint(10, 160), randint(10, 120))
 let collected = 0
 EnemyVelocity = 50
-currentFood = 0
-MaxEnemyVelocity = 100000
+let currentFood = 0
+MaxEnemyVelocity = 65
+let MaxFood = 3
 game.onUpdateInterval(1, function () {
-    if (currentFood < 3) {
+    if (currentFood < MaxFood) {
         SpawnFood()
     }
 })
